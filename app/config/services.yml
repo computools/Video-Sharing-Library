@@ -1,0 +1,47 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+    user.class: AppBundle\Entity\User
+services:
+    # Repositories
+    share.youtube.repository:
+        class: AppBundle\Repository\YoutubeShareRepository
+        arguments: ["@doctrine"]
+    share.dailymotion.repository:
+        class: AppBundle\Repository\DailymotionShareRepository
+        arguments: ["@doctrine"]
+    connection.repository:
+        class: AppBundle\Repository\ConnectionRepository
+        arguments: ["@doctrine"]
+    connection.youtube.repository:
+        class: AppBundle\Repository\YoutubeConnectionRepository
+        arguments: ["@doctrine"]
+    connection.dailymotion.repository:
+        class: AppBundle\Repository\DailymotionConnectionRepository
+        arguments: ["@doctrine"]
+    video.repository:
+        class: AppBundle\Repository\VideoRepository
+        arguments: ["@doctrine", "@service_container"]
+    metadata.repository:
+        class: AppBundle\Repository\MetadataRepository
+        arguments: ["@doctrine"]
+
+    # Factories
+    youtube.factory:
+        class: AppBundle\Service\Factory\YoutubeServiceFactory
+        arguments: ["@service_container"]
+    dailymotion.factory:
+        class: AppBundle\Service\Factory\DailymotionServiceFactory
+        arguments: ["@service_container"]
+
+    # Services
+    oauth2:
+        class: AppBundle\Service\Oauth2Service
+        arguments: ['@service_container']
+    ffmpeg:
+        class: AppBundle\Service\FFMpegService
+        arguments: ['@service_container']
+    metadata:
+        class: AppBundle\Service\MetadataService
+        arguments: ['@service_container']

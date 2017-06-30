@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body%}
+    <div class="content form-content">
+        <div class="container">
+            <h2>Create an account</h2>
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+            {{ form_widget(form) }}
+                <div>
+                    <input type="submit" value="{{ 'Register'|trans }}" />
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

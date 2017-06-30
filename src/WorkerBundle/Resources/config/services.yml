@@ -1,0 +1,11 @@
+services:
+    scheduler:
+        class: WorkerBundle\Service\SchedulerService
+        arguments: ["@service_container"]
+    scheduler.factory:
+        class: WorkerBundle\Service\SchedulerWorker\SchedulerFactory
+        arguments: ["@service_container"]
+    # Repositories
+    scheduler.repository:
+        class: WorkerBundle\Repository\SchedulerTaskRepository
+        arguments: ["@doctrine"]

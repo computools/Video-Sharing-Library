@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('/web/assets/css/main.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <script src="{{ asset('/web/assets/js/main.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+    {% block header %}
+        <header>
+            <nav class="container">
+                {% if app.user %}
+                    <span class="user-name"><img class="user-icon" src="/web/assets/img/user-shape.svg" alt="user"> {{ app.user.username }}</span>
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                {% endif %}
+            </nav>
+        </header>
+    {% endblock %}
+    {% block popup %}
+        <div class="popup-content">
+            <div class="overflow"></div>
+            <div class="popup">
+                <div class="close-popup">✖</div>
+                <div class="pop-up-container">
+                    <div id="response"></div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+    {% block message %}
+            {% if app.request.query.get('message') != '' %}
+                <script>
+                    $('.popup-content').show();
+                    $('#response').html("{{ app.request.query.get('message') }}");
+                </script>
+            {% endif %}
+    {% endblock %}
+    {% block body %}{% endblock %}
+    </body>
+</html>

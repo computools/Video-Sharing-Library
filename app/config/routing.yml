@@ -1,0 +1,10 @@
+worker:
+    resource: "@WorkerBundle/Controller/"
+    type:     annotation
+    prefix:   /worker
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

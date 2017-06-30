@@ -1,0 +1,23 @@
+hwi_oauth:
+    firewall_names:
+        - main
+    http_client:
+        timeout: 5
+        verify_peer: true
+        ignore_errors: true
+        max_redirects: 5
+
+    resource_owners:
+        dailymotion:
+            type: dailymotion
+            client_id: %dailymotion_client_id%
+            client_secret: %dailymotion_client_secret%
+            scope: 'manage_videos,manage_playlists'
+        youtube:
+            type: google
+            client_id: %youtube_client_id%
+            client_secret: %youtube_client_secret%
+            options:
+                access_type: offline
+                approval_prompt: force
+            scope: "https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.upload"

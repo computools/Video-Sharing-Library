@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="content">
+        <div class="container">
+            <section>
+                <a class="del" href="/">❮ Back</a>
+            </section>
+            <div class="video-container">
+                <h1>{{ video.name }}</h1>
+                <img src="{{ asset('/web/thumbnail/') }}{{ video.thumbnail }}">
+            </div>
+            <section class="video-info metadata">
+                <h2>Metadata:</h2>
+                <p><span>Resolition: </span>{{ video.metadata.resolution }}</p>
+                <p><span>Size: </span>{{ video.metadata.size }} bytes</p>
+                <p><span>Bitrate: </span>{{ video.metadata.bitrate }} bps</p>
+                <p><span>Framerate: </span>{{ video.metadata.framerate }} fps</p>
+            </section>
+            <section class="video-info shares">
+                <h2>Shares:</h2>
+                {% for share in video.shares %}
+                        {% if share.status == 20 %}
+                            <p>
+                                <span>{{ share.connection.channelName }} ({{ share.type }}):</span>
+                                <a target="_blank" href="{{ share.url }}">{{ share.url }}</a>
+                            </p>
+                        {% elseif (share.status == 10) %}
+                            <p>
+                                <span>{{ share.connection.channelName }} ({{ share.type }}):</span> Processing
+                            </p>
+                        {% else %}
+                            <p>
+                                <span>{{ share.connection.channelName }} ({{ share.type }}):</span> Error: {{ share.message }}
+                            </p>
+                        {% endif %}
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+{% endblock %}

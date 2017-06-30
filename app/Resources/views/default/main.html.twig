@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <div class="content">
+            <div class="container">
+                <section>
+                    <h1>Library</h1>
+                </section>
+                <section class="channels-section">
+                    <div>
+                        <h2>Channels:</h2>
+                        <ul class="channels-list">
+                            {% for connection in connections %}
+                                <li><span>{{ connection.getType() }}</span> - {{ connection.channelName }} <a class="del" href="/connection/disconnect/{{ connection.id }}">Disconnect</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="add-services">
+                        <button id="add-youtube">Add YouTube channel</button>
+                        <button id="add-dailymotion">Add Dailymotion channel</button>
+                    </div>
+                </section>
+                <section class="video-section">
+                    <h2>Choose video:</h2>
+                    <form id="upload-form" action="/video" method="post" enctype="multipart/form-data">
+                        <div id="choose-file">
+                            <input id="input-file" type="file" name="video" onchange='uploadFile(this)'>
+                            <div class="del">Choose file</div>
+                        </div>
+                        <label for="video">
+                            <span id="file-name" class="file-box"></span>
+                        </label>
+                        <div class="upload-btn">
+                            Upload<img class="upload-icon" src="/web/assets/img/upload-button.svg" alt="Upload">
+                        </div>
+                    </form>
+                </section>
+                <section class="video-items-section">
+                    <h2>Load video:</h2>
+                    {% for videoItem in video %}
+                        <div class="row">
+                            <div class="img-container">
+                                <a href="/video/{{ videoItem.id }}">
+                                    <img style="max-width: 100px; max-height: 100px;" src="{{ asset('/web/thumbnail/') }}{{ videoItem.thumbnail }}">
+                                </a>
+                            </div>
+                            <div class="video-links-container">
+                                <div class="row video-name">
+                                    <a href="/video/{{ videoItem.id }}">
+                                        <p>{{ videoItem.name }}</p>
+                                    </a>
+                                </div>
+                                <div class="row">
+                                    <p>Load to:</p>
+                                    <div class="select-channel" data-video-id="{{ videoItem.id }}">
+                                        <div class="option-channel-selected">
+                                            Choose channel
+                                        </div> <span></span>
+                                        <div class="select-channel-list">
+                                            {% for connection in connections %}
+                                                {% set exists = false %}
+                                                {% for share in videoItem.shares %}
+                                                    {% if share.connection.id == connection.id %}
+                                                        {% set exists = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <div class="option-channel">
+                                                    <input id="channel-{{ connection.id }}-video-{{ videoItem.id }}" {% if exists %} disabled {% endif %} type="radio" name="video-{{ videoItem.id }}" value="{{ connection.id }}"/>
+                                                    <label for="channel-{{ connection.id }}-video-{{ videoItem.id }}">{{ connection.channelName }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <button class="load" data-id="videoItem.id">Load</button>
+                                    <a class="close" href="/video/delete/{{ videoItem.id }}">✖</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+            </div> {# container #}
+        </div> {# content #}
+{% endblock %}
